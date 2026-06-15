@@ -204,16 +204,9 @@ func fetchCerts() (map[string]*rsa.PublicKey, error) {
 }
 
 // base64URLDecode decodes a base64url-encoded string (with or without padding).
+// base64URLDecode decodes a base64url-encoded string (no padding required).
 func base64URLDecode(s string) ([]byte, error) {
-	switch len(s) % 4 {
-	case 2:
-		s += "=="
-	case 3:
-		s += "="
-	}
-	// Replace URL-safe chars.
-	s = strings.ReplaceAll(s, "-", "+")
-	s = strings.ReplaceAll(s, "_", "/")
-	return base64.StdEncoding.DecodeString(s)
+	return base64.RawURLEncoding.DecodeString(s)
 }
+
 
